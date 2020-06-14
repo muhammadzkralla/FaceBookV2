@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.alyndroid.facebookv2.R;
@@ -17,23 +18,25 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     PostViewModel postViewModel;
+    PostsAdapter adapter;
+    Context context;
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         postViewModel = ViewModelProviders.of(this).get(PostViewModel.class);
+        recyclerView = findViewById(R.id.recycler);
 
         postViewModel.getPosts();
-        RecyclerView recyclerView = findViewById(R.id.recycler);
-        final PostsAdapter adapter = new PostsAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-
 
         postViewModel.postsMutableLiveData.observe(this, new Observer<List<PostModel>>() {
             @Override
             public void onChanged(List<PostModel> postModels) {
-                adapter.setList(postModels);
+                adapter  = new PostsAdapter(postModels);
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                recyclerView.setAdapter(adapter);
+
             }
         });
 

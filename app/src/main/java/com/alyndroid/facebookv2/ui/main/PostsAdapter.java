@@ -17,6 +17,10 @@ import java.util.List;
 public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHolder> {
     private List<PostModel> moviesList = new ArrayList<>();
 
+    public PostsAdapter(List<PostModel> moviesList) {
+        this.moviesList = moviesList;
+    }
+
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -35,10 +39,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         return moviesList.size();
     }
 
-    public void setList(List<PostModel> moviesList) {
-        this.moviesList = moviesList;
-        notifyDataSetChanged();
-    }
+
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
         TextView titleTV, userTV, bodyTV;
